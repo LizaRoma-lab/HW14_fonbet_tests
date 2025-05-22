@@ -1,0 +1,30 @@
+package bet.fon;
+
+import com.codeborne.selenide.Configuration;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+
+import static com.codeborne.selenide.Configuration.*;
+import static com.codeborne.selenide.Configuration.browserSize;
+import static com.codeborne.selenide.Selenide.closeWebDriver;
+
+public class TestBase {
+    @BeforeAll
+    static void setup() {
+        Configuration.baseUrl = "https://fon.bet";
+    }
+
+    @BeforeEach
+    void setUp() {
+        pageLoadStrategy = "eager"; // не ждать полной загрузки страницы
+        timeout = 10000; // 10 секунд для ожидания элементов
+        pageLoadTimeout = 30000; // 30 секунд для загрузки страницы
+        browserSize = "1920x1080";
+    }
+
+    @AfterEach
+    void shutDown() {
+        closeWebDriver();
+    }
+}
