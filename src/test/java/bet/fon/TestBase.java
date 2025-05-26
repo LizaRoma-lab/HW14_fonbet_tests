@@ -1,6 +1,8 @@
 package bet.fon;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +23,7 @@ public class TestBase {
         timeout = 10000; // 10 секунд для ожидания элементов
         pageLoadTimeout = 30000; // 30 секунд для загрузки страницы
         browserSize = "1920x1080";
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
     }
 
     @AfterEach
