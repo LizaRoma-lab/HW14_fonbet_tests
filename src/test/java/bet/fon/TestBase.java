@@ -1,6 +1,7 @@
 package bet.fon;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
@@ -8,10 +9,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 import static com.codeborne.selenide.Configuration.*;
 import static com.codeborne.selenide.Configuration.browserSize;
@@ -21,8 +18,17 @@ public class TestBase {
     @BeforeAll
     static void setup() {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--window-size=1920,1080");  // Только необходимые аргументы
-        Configuration.browserCapabilities = options;
+        // Минимальные необходимые параметры
+        options.addArguments(
+                "--window-size=1920,1080",
+                "--disable-dev-shm-usage"
+        );
+
+        // Явно отключаем все автоматические настройки
+        Configuration.browserCapabilities = new ChromeOptions();
+        Configuration.browser = "chrome";
+        Configuration.headless = false;
+        Configuration.remote = ""; // Важно: явно отключаем удаленный драйвер
     }
 
 
@@ -39,6 +45,11 @@ public class TestBase {
 
     @AfterEach
     void shutDown() {
-        closeWebDriver();
+        Selenide.closeWebDriver(); // Полное закрытие браузера после каждого теста
+        try {
+            Thread.sleep(500); // Даем время для завершения процессов
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 }
