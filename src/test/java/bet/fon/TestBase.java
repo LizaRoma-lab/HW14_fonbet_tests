@@ -17,18 +17,21 @@ import static com.codeborne.selenide.Selenide.closeWebDriver;
 public class TestBase {
     @BeforeAll
     static void setup() {
+        Configuration.browser = "chrome";
+        Configuration.remote = ""; // Критично: явно отключаем удалённый режим
+        Configuration.browserCapabilities = new ChromeOptions(); // Чистая конфигурация
+
+        // 2. Минимальные настройки Chrome
         ChromeOptions options = new ChromeOptions();
-        // Минимальные необходимые параметры
         options.addArguments(
-                "--window-size=1920,1080",
+                "--start-maximized",
                 "--disable-dev-shm-usage"
         );
+        Configuration.browserCapabilities = options;
 
-        // Явно отключаем все автоматические настройки
-        Configuration.browserCapabilities = new ChromeOptions();
-        Configuration.browser = "chrome";
+        // 3. Отключаем всё лишнее
         Configuration.headless = false;
-        Configuration.remote = ""; // Важно: явно отключаем удаленный драйвер
+        Configuration.holdBrowserOpen = false;
     }
 
 
@@ -46,10 +49,6 @@ public class TestBase {
     @AfterEach
     void shutDown() {
         Selenide.closeWebDriver(); // Полное закрытие браузера после каждого теста
-        try {
-            Thread.sleep(500); // Даем время для завершения процессов
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+
     }
 }
