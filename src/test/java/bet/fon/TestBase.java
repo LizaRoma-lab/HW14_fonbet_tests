@@ -17,21 +17,9 @@ import static com.codeborne.selenide.Selenide.closeWebDriver;
 public class TestBase {
     @BeforeAll
     static void setup() {
-        Configuration.browser = "chrome";
-        Configuration.remote = ""; // Критично: явно отключаем удалённый режим
-        Configuration.browserCapabilities = new ChromeOptions(); // Чистая конфигурация
-
-        // 2. Минимальные настройки Chrome
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments(
-                "--start-maximized",
-                "--disable-dev-shm-usage"
-        );
-        Configuration.browserCapabilities = options;
-
-        // 3. Отключаем всё лишнее
-        Configuration.headless = false;
-        Configuration.holdBrowserOpen = false;
+        Configuration.browserSize = "1920x1080";
+        Configuration.baseUrl = "https://demoqa.com";
+        Configuration.pageLoadStrategy = "eager";
     }
 
 
