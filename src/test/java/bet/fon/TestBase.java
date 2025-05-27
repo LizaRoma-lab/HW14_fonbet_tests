@@ -20,23 +20,10 @@ import static com.codeborne.selenide.Selenide.closeWebDriver;
 public class TestBase {
     @BeforeAll
     static void setup() {
-            ChromeOptions options = new ChromeOptions();
-            Map<String, Object> prefs = new HashMap<>();
-            prefs.put("credentials_enable_service", false);
-            prefs.put("profile.password_manager_enabled", false);
-
-            options.setExperimentalOption("prefs", prefs);
-            options.addArguments(
-                    "--no-sandbox",
-                    "--disable-dev-shm-usage",
-                    "--remote-allow-origins=*",
-                    "--window-size=1920,1080"
-            );
-
-            Configuration.browserCapabilities = options;
-            Configuration.browser = "chrome";
-            Configuration.timeout = 15000;
-        }
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--window-size=1920,1080");  // Только необходимые аргументы
+        Configuration.browserCapabilities = options;
+    }
 
 
     @BeforeEach
