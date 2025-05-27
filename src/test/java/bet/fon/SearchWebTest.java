@@ -6,6 +6,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
+import static io.qameta.allure.Allure.step;
 
 public class SearchWebTest extends TestBase {
 
@@ -16,29 +17,29 @@ public class SearchWebTest extends TestBase {
     })
     @ParameterizedTest
     void successfulSearchTest(String testData) {
-        Allure.step("Открываем главную страницу Fonbet", () -> {
+        step("Открываем главную страницу Fonbet", () -> {
             open("https://fon.bet/");
             $("body").shouldBe(visible);
         });
 
-        Allure.step("Открываем поисковую строку", () -> {
+        step("Открываем поисковую строку", () -> {
             $("[data-testid='btn.search']")
                     .shouldBe(visible, enabled)
                     .click();
             $("[data-testid=stringEdit]").shouldBe(visible);
         });
 
-        Allure.step("Ищем: " + testData, () -> {
+        step("Ищем: " + testData, () -> {
             $("[data-testid=stringEdit]")
                     .setValue(testData)
                     .pressEnter();
         });
 
-        Allure.step("Проверяем результаты поиска", () -> {
+        step("Проверяем результаты поиска", () -> {
             $("[data-testid=teams]")
                     .shouldBe(visible)
                     .shouldHave(text(testData));
         });
-        
+
     }
 }

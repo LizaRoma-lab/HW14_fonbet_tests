@@ -10,6 +10,7 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
+import static io.qameta.allure.Allure.step;
 
 public class LoginWebTest extends TestBase {
     @DisplayName("Негативный тест на вход в систему")
@@ -20,21 +21,21 @@ public class LoginWebTest extends TestBase {
             "invalidEmail, randomPassword, Логин или пароль указан неверно"
     })
     void unsuccessfulLogInWithPhoneNumber(String userPhoneNumber, String password, String result) {
-        Allure.step("Открываем главную страницу Fonbet", () -> {
+        step("Открываем главную страницу Fonbet", () -> {
             open("https://fon.bet/");
         });
 
-        Allure.step("Нажимаем кнопку 'Войти'", () -> {
+        step("Нажимаем кнопку 'Войти'", () -> {
             $("[data-testid='btn.logIn']").click();
             $("[name=login]").shouldBe(visible);
         });
 
-        Allure.step("Вводим некорректные данные: логин '" + userPhoneNumber + "', пароль '" + password + "'", () -> {
+        step("Вводим некорректные данные: логин '" + userPhoneNumber + "', пароль '" + password + "'", () -> {
             $("[name=login]").setValue(userPhoneNumber);
             $("[type=password]").setValue(password).pressEnter();
         });
 
-        Allure.step("Проверяем сообщение об ошибке: '" + result + "'", () -> {
+        step("Проверяем сообщение об ошибке: '" + result + "'", () -> {
             $(".text--kseTA")
                     .shouldBe(visible)
                     .shouldHave(text(result));

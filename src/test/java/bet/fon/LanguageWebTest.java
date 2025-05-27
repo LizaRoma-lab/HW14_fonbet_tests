@@ -17,39 +17,30 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.WebDriverConditions.urlContaining;
+import static io.qameta.allure.Allure.step;
 
 public class LanguageWebTest extends TestBase{
 
     @EnumSource(Language.class)
     @ParameterizedTest
     void fonbetSiteShouldDisplayCorrectTest(Language language) {
-        Allure.step("Открываем главную страницу Fonbet", () -> {
+        step("Открываем главную страницу Fonbet", () -> {
             open("https://fon.bet/");
         });
 
-        Allure.step("Открываем меню выбора языка", () -> {
+        step("Открываем меню выбора языка", () -> {
             $("[data-testid='btn.languages']").click();
         });
 
-        Allure.step("Выбираем язык: " + language.name(), () -> {
+        step("Выбираем язык: " + language.name(), () -> {
             $$("[data-testid='dd.language']")
                     .find(text(language.name()))
                     .click();
         });
 
-        Allure.step("Проверяем, что текст кнопки 'Log In' изменился на '" + language.description + "'", () -> {
+        step("Проверяем, что текст кнопки 'Log In' изменился на '" + language.description + "'", () -> {
             $("[data-testid='btn.logIn']").shouldHave(text(language.description));
         });
     }
 
-    public enum Language {
-        RU("Войти"),
-        EN("Log in");
-
-        public final String description;
-
-        Language(String description) {
-            this.description = description;
-        }
-    }
 }
