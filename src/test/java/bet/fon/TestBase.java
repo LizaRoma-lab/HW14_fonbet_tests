@@ -11,6 +11,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import static com.codeborne.selenide.Configuration.*;
 import static com.codeborne.selenide.Configuration.browserSize;
@@ -32,6 +33,7 @@ public class TestBase {
                 "--disable-browser-side-navigation",
                 "--disable-gpu",
                 "--incognito",
+                "--user-data-dir=/tmp/chrome-profile-" + UUID.randomUUID(),
                 "--window-size=1920,1080"
         );
 
