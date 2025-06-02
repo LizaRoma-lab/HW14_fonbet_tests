@@ -8,7 +8,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
+
+import java.util.Map;
 
 import static com.codeborne.selenide.Configuration.*;
 import static com.codeborne.selenide.Configuration.browserSize;
@@ -22,7 +25,6 @@ public class TestBase {
         Configuration.pageLoadStrategy = "eager";
     }
 
-
     @BeforeEach
     void setUp() {
         Configuration.baseUrl = "https://fon.bet";
@@ -30,8 +32,18 @@ public class TestBase {
         timeout = 10000; // 10 секунд для ожидания элементов
         pageLoadTimeout = 30000; // 30 секунд для загрузки страницы
         browserSize = "1920x1080";
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
+
+        Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
+
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability("selenoid:options", Map.<String, Object>of(
+                "enableVNC", true,
+                "enableVideo", true
+        ));
+        Configuration.browserCapabilities = capabilities;
+
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
     }
 
     @AfterEach
